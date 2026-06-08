@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COBAO Plantel 04 "El Tule" - Proyecto PAEC Digital</title>
+    <style>
+        :root {
+            /* Color principal cambiado a Rojo COBAO  */
+            --primary-color: #B71C1C; /* Rojo COBAO  */
+            --secondary-color: #424242; /* Color de apoyo (Gris oscuro)  */
+            --accent-color: #ff6f00; /* Color de acento (Naranja - se mantiene)  */
+            --bg-dark: #121212;
+            --bg-light: #f5f7fa;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Encabezado Institucional  - Fondo Rojo  */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-color);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Espaciado para el logo  */
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .logo-container {
+            max-width: 80px; /* Ajuste del logo  */
+            margin-right: 20px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        .header-title h1 {
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+
+        .header-title h2 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* Navegación Horizontal [cite: 23] */
+        nav.nav-horizontal {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            sticky: top;
+            position: sticky;
+            z-index: 1000;
+        }
+
+        nav.nav-horizontal ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav.nav-horizontal ul li a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        nav.nav-horizontal ul li a:hover, nav.nav-horizontal ul li a.active {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        /* Estructura Principal [cite: 23] */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            max-width: 1400px;
+            margin: 20px auto;
+            gap: 20px;
+            padding: 0 15px;
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Secciones de Contenido [cite: 23] */
+        .content-area {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active-section {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h3.section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Bloques Multimedia (Mínimo 8 fotos [cite: 15] y 2 videos [cite: 17] por página) */
+        .media-gallery {
+            margin: 25px 0;
+        }
+
+        .gallery-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .image-card {
+            background: #eee;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            height: 160px;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .image-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            width: 100%;
+            font-size: 0.75rem;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .video-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .video-box {
+            background: #000;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+
+        .video-box iframe, .video-box video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Navegación Vertical / Publicidad Lateral [cite: 23] */
+        aside.sidebar-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-widget {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .sidebar-widget h4 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav-vertical {
+            list-style: none;
+        }
+
+        .sidebar-nav-vertical li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav-vertical li a {
+            color: var(--text-dark);
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav-vertical li a:hover {
+            background: var(--accent-color);
+            color: white;
+            padding-left: 18px;
+        }
+
+        /* Formatos de Publicidad Interactiva [cite: 33, 44] */
+        .ad-banner {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); /* Color Rojo  */
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .ad-tips {
+            font-size: 0.85rem;
+            font-style: italic;
+            background: #fff8e1;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px dashed #ffb300;
+        }
+
+        /* Tabla de Estructura Curricular [cite: 41] */
+        table.curriculum-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        table.curriculum-table th, table.curriculum-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table.curriculum-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        table.curriculum-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Pie de Página Institucional - Fondo Oscuro, Acento Rojo  */
+        footer {
+            background-color: var(--bg-dark);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            border-top: 4px solid var(--primary-color);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="https://via.placeholder.com/150/B71C1C/FFFFFF?text=COBAO" alt="Logo COBAO ">
+        </div>
+        <div class="header-title">
+            <h1>COBAO Plantel 04 "El Tule" </h1>
+            <h2>Prácticas de Taller de Cultura Digital | Evaluación Final [cite: 9, 10]</h2>
+            <p style="text-align: center; color: #ffab00; font-weight: bold; margin-top: 5px;">PROYECTO PAEC: Sinergia Micro Biótica para la Salud [cite: 12]</p>
+        </div>
+    </header>
+
+    <nav class="nav-horizontal">
+        <ul>
+            <li><a href="#" class="active" onclick="switchPage('portal')">Portal Institucional [cite: 27]</a></li>
+            <li><a href="#" onclick="switchPage('paec')">Proyecto PAEC [cite: 34]</a></li>
+            <li><a href="#" onclick="switchPage('autodescripcion')">Autodescripción [cite: 45]</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        
+        <main class="content-area">
+
+            <section id="portal" class="page-section active-section">
+                <h3 class="section-title">La Institución Educativa y Entorno Académico [cite: 28]</h3>
+                <p>El Colegio de Bachilleres del Estado de Oaxaca (COBAO), específicamente el Plantel 04 ubicado en Santa María del Tule, se distingue por su compromiso continuo en la formación integral de la juventud de la región de los Valles Centrales. Dentro de los esquemas de la Educación Media Superior (EMS)[cite: 30], nuestra institución promueve no solo la excelencia científica y matemática, sino el arraigo cultural, social y comunitario a través de planes de vanguardia guiados por la Nueva Escuela Mexicana.</p>
+                
+                <h4 style="margin: 15px 0 10px 0; color: var(--secondary-color);">Núcleos de Formación Propedéutica (NFP) [cite: 29]</h4>
+                <p>Nuestra oferta académica prepara estratégicamente a los estudiantes de los últimos semestres para su inserción en la educación superior mediante cuatro núcleos fundamentales determinados por su vocación:</p>
+                <ul>
+                    <li><strong>Físico-Matemático:</strong> Enfocado en ingenierías, arquitectura, ciencias de la computación y análisis espacial. [cite: 29]</li>
+                    <li><strong>Químico-Biológico:</strong> Destinado a las áreas de medicina, ecología, enfermería, agronomía y ciencias de la salud. [cite: 29]</li>
+                    <li><strong>Económico-Administrativo:</strong> Preparación en contaduría, administración, finanzas, mercadotecnia y economía del desarrollo. [cite: 29]</li>
+                    <li><strong>Humanidades y Ciencias Sociales:</strong> Dirigido al estudio del derecho, la comunicación, la pedagogía, la psicología y la antropología. [cite: 29]</li>
+                </ul>
+
+                <h4 style="margin: 25px 0 10px 0; color: var(--secondary-color);">Aspectos Relacionados con la Educación y La Alimentación del Mexica [cite: 31, 32]</h4>
+                <p>Como parte de la transversalidad en la EMS [cite: 30], rescatamos la cosmovisión nutricional de nuestros antepasados[cite: 31, 32]. La dieta del Mexica constituía un systema de perfecto equilibrio fundamentado en la milpa: el maíz nixtamalizado, el frijol (fuente proteica), la calabaza, los quelites (ricos en fibra y micronutrientes), y superalimentos como el amaranto y la chía[cite: 32]. Este patrón de alimentación tradicional propiciaba una microbiota intestinal sumamente diversa y robusta, un concepto milenario que hoy redescubrimos bajo la ciencia moderna en beneficio de las nuevas generaciones.</p>
+
+                <div class="media-gallery">
+                    <p class="gallery-title">📸 Evidencias Fotográficas Institucionales y Culturales (Mínimo 8 Requeridas [cite: 15])</p>
+                    <div class="image-grid">
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400" alt="Instalaciones COBAO "><div class="image-label">Instalaciones Plantel 04</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400" alt="Estudiantes en Biblioteca"><div class="image-label">Biblioteca Escolar</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400" alt="Taller de Cultura Digital [cite: 9]"><div class="image-label">Taller de Cultura Digital</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?w=400" alt="Orientación NFP [cite: 29]"><div class="image-label">Orientación NFP</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400" alt="Estudio Alimentación Mexica [cite: 32]"><div class="image-label">Estudio Alimentación Mexica</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=400" alt="Ingredientes Prehispánicos"><div class="image-label">Ingredientes de la Milpa</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400" alt="Nutrición y Salud"><div class="image-label">Simposio Nutrición EMS</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400" alt="Evaluación de Avances"><div class="image-label">Evaluación de Avances</div></div>
+                    </div>
+                    
+                    <p class="gallery-title">🎥 Videos Informativos de la Institución (Mínimo 2 Requeridos [cite: 17])</p>
+                    <div class="video-container">
+                        <div class="video-box">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Institucional 1"></iframe>
+                        </div>
+                        <div class="video-box">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Institucional 2"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="paec" class="page-section">
+                <h3 class="section-title">Proyecto PAEC: Sinergia Micro Biótica para el Cuidado de la Salud de los Adolescentes [cite: 12]</h3>
+                <p>El Programa de Aula Escuela Comunidad (PAEC) representa una estrategia integradora que conecta el aprendizaje del Taller de Cultura Digital con el bienestar físico directo de la comunidad estudiantil[cite: 12]. Este proyecto se enfoca en concientizar sobre el cuidado de la microbiota intestinal para mitigar problemas recurrentes de salud sistémica y emocional en adolescentes.</p>
+                
+                <h4 style="margin: 15px 0 10px 0; color: var(--secondary-color);">Significado y Finalidad de la Capacitación [cite: 36, 39]</h4>
+                <p>Bajo la directriz de la capacitación en <strong>Higiene y Salud Comunitaria</strong> (vinculada al núcleo Químico-Biológico), esta actividad busca potenciar la proactividad del estudiante. Se persigue que el alumno sea un agente de cambio capaz de formular alternativas alimentarias simbióticas (probióticos y prebióticos) que fortalezcan el systema inmunológico y el eje intestino-cerebro del adolescente.</p>
+                
+                <h4 style="margin: 15px 0 10px 0; color: var(--secondary-color);">Módulos y Submódulos Curriculares [cite: 41]</h4>
+                <table class="curriculum-table">
+                    <thead>
+                        <tr>
+                            <th>Módulo General</th>
+                            <th>Submódulos Desarrollados</th>
+                            <th>Impacto Económico / Comunitario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Módulo I: Promoción de la Salud Comunitaria</td>
+                            <td>Submódulo 1: Diagnóstico de Necesidades Sanidad<br>Submódulo 2: Técnicas de Comunicación Social</td>
+                            <td>Diseño de campañas de salud escolar con bases mercadotécnicas directas.</td>
+                        </tr>
+                        <tr>
+                            <td>Módulo II: Vigilancia Nutricional y Preventiva</td>
+                            <td>Submódulo 1: Elaboración de Menús Simbióticos<br>Submódulo 2: Análisis de Alimentos Fermentados</td>
+                            <td>Fomento al autoempleo mediante la producción artesanal y segura de kéfir o kombucha.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p><strong>Información Complementaria y Actividad Económica[cite: 43]:</strong> Los resultados demuestran que educar en biotecnología alimentaria de bajo costo reduce el ausentismo escolar y genera un nicho comercial viable. La creación de proyectos escolares enfocados en la venta interna o regional de alimentos fermentados tradicionales promueve la sostenibilidad económica del entorno local.</p>
+
+                <div class="media-gallery">
+                    <p class="gallery-title">📸 Evidencias de Actividad PAEC y Testimonios en Fotos y Documentos (Mínimo 8 Requeridas [cite: 15, 42])</p>
+                    <div class="image-grid">
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=400" alt="Cultivo Microbiótico [cite: 42]"><div class="image-label">Preparación de Probióticos (Testimonio)</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=400" alt="Análisis de Laboratorio"><div class="image-label">Observación en Laboratorio</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400" alt="Análisis de Datos PAEC"><div class="image-label">Análisis de Datos PAEC</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400" alt="Exposición a la Comunidad [cite: 42]"><div class="image-label">Exposición a la Comunidad</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400" alt="Mercadotecnia Social"><div class="image-label">Proyecto de Mercadotecnia</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400" alt="Manejo del Estrés"><div class="image-label">Taller de Bienestar Mental</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400" alt="Activación Física"><div class="image-label">Activación del Eje Intestino-Cerebro</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400" alt="Testimonio de Participación Activa [cite: 42]"><div class="image-label">Sesión de Trabajo en Equipo</div></div>
+                    </div>
+                    
+                    <p class="gallery-title">🎥 Testimonios en Video de las Actividades y Participación Activa (P.E. Videos Proporcionados) </p>
+                    <p style="font-size:0.9rem; color:#607D8B; margin-bottom: 10px;"><em>Reemplazar estos videos con el contenido de los testimonios de participación activa y las actividades del proyecto (P.E. los archivos de video de Facebook proporcionados) utilizando sus códigos de inserción o archivos propios si se tienen.</em></p>
+                    <div class="video-container">
+                        <div class="video-box">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video de Testimonio de Participación 1 [cite: 42]"></iframe>
+                        </div>
+                        <div class="video-box">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video de Actividad y Asistencia [cite: 42]"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="autodescripcion" class="page-section">
+                <h3 class="section-title">Perfil del Estudiante Autodescripción</h3>
+                
+                <div style="background-color: var(--bg-light); padding: 20px; border-radius: 6px; margin-bottom: 20px;">
+                    <h4>Datos Generales [cite: 46]</h4>
+                    <p style="margin-top: 5px;"><strong>Institución:</strong> Colegio de Bachilleres del Estado de Oaxaca (COBAO)<br>
+                    <strong>Plantel:</strong> 04 "El Tule" <br>
+                    <strong>Asignatura:</strong> Taller de Cultura Digital</p>
+                </div>
+
+                <h4 style="margin: 15px 0 10px 0; color: var(--secondary-color);">Descripción Física [cite: 47]</h4>
+                <p>Estudiante dinámico e integrado a la vida escolar activa del plantel. Posee una gran resistencia y adaptabilidad física para ejecutar tanto las prácticas rigurosas de laboratorio de salud como el diseño técnico frente a terminales computacionales de manera prolongada.</p>
+
+                <h4 style="margin: 15px 0 10px 0; color: var(--secondary-color);">Descripción Psicológica [cite: 48]</h4>
+                <p>Destaca por un pensamiento lógico, analítico y altamente proactivo ante las problemáticas comunitarias. Muestra un perfil empático enfocado hacia la resolución efectiva de retos sociales, resiliencia ante el estrés académico y una marcada disposición para liderar equipos colaborativos de manera armoniosa.</p>
+
+                <h4 style="margin: 15px 0 10px 0; color: var(--secondary-color);">Proyecto de Vida [cite: 49]</h4>
+                <p>A corto plazo, la meta consiste en culminar con honores el bachillerato general dentro del COBAO Plantel 04 , asimilando de manera profunda el uso ético y avanzado de las herramientas y narrativas de la cultura digital[cite: 9]. A mediano y largo plazo, se proyecta el ingreso a una carrera de nivel superior dentro del sector de las ingenierías o ciencias exactas, buscando aplicar el conocimiento de la infraestructura del desarrollo tecnológico con un alto sentido de responsabilidad sustentable y social.</p>
+
+                <div class="media-gallery">
+                    <p class="gallery-title">📸 Registro Fotográfico Personal y Escolar (Mínimo 8 Requeridas [cite: 15])</p>
+                    <div class="image-grid">
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Perfil Fotográfico"><div class="image-label">Retrato Académico</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400" alt="Trabajo Individual"><div class="image-label">Desarrollo de Código Web</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400" alt="Colaboración Académica"><div class="image-label">Participación Activa en Aula</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400" alt="Logros Escolares [cite: 49]"><div class="image-label">Logros Escolares</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?w=400" alt="Concentración"><div class="image-label">Gestión de Tareas Digitales</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400" alt="Planeación de Vida"><div class="image-label">Esquema de Proyecto de Vida</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400" alt="Hábitos de Estudio"><div class="image-label">Espacio del Alumno</div></div>
+                        <div class="image-card"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400" alt="Tecnología Futura [cite: 49]"><div class="image-label">Visualización Profesional</div></div>
+                    </div>
+                    
+                    <p class="gallery-title">🎥 Presentación en Video del Estudiante (Mínimo 2 Requeridos [cite: 17])</p>
+                    <div class="video-container">
+                        <div class="video-box">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Autodescripción [cite: 45]"></iframe>
+                        </div>
+                        <div class="video-box">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Mensaje de Metas [cite: 49]"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <aside class="sidebar-vertical">
+            
+            <div class="sidebar-widget">
+                <h4>Navegación Vertical [cite: 23]</h4>
+                <ul class="sidebar-nav-vertical">
+                    <li><a href="#" onclick="switchPage('portal')">📌 Inicio - Portal COBAO</a></li>
+                    <li><a href="#" onclick="switchPage('paec')">🔬 Plan de Acción PAEC [cite: 34]</a></li>
+                    <li><a href="#" onclick="switchPage('autodescripcion')">👤 Perfil y Autodescripción [cite: 45]</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h4>Publicidad Académica [cite: 33, 44]</h4>
+                <div class="ad-banner">¡Capacitaciones 2026! [cite: 19, 33, 44]</div>
+                <p style="font-size:0.8rem;">Inscríbete en Higiene y Salud Comunitaria o Tecnologías de la Información en nuestro Plantel 04.</p>
+            </div>
+
+            <div class="sidebar-widget">
+                <h4>Activación y Salud [cite: 20]</h4>
+                <div class="ad-banner" style="background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));">¿Cómo activar tu cerebro? [cite: 20]</div>
+                <div class="ad-tips">
+                    <strong>Tip del día:</strong> El consumo regular de alimentos fermentados naturales equilibra la microbiota y reduce drásticamente los niveles de estrés en temporada de exámenes[cite: 12, 20].
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h4>Intercolegial COBAO [cite: 20]</h4>
+                <div class="ad-banner" style="background: linear-gradient(45deg, #d84315, #ff8a65);">¡Próximo Evento! [cite: 20]</div>
+                <p style="font-size:0.8rem; text-align:center;">Participa activamente representando al Plantel 04 'El Tule' en las categorías académicas y culturales[cite: 8, 20].</p>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <footer>
+        <div class="logo-container" style="max-width: 60px; margin: 0 auto 10px auto; opacity: 0.6;">
+            <img src="https://via.placeholder.com/150/B71C1C/FFFFFF?text=COBAO" alt="Logo COBAO ">
+        </div>
+        <p>© 2026 Colegio de Bachilleres del Estado de Oaxaca - Plantel 04 "El Tule". Todos los derechos reservados.</p>
+        <p style="font-size:0.75rem; margin-top:5px; color:rgba(255,255,255,0.4);">Desarrollado Individualmente para la Evaluación Final de Taller de Cultura Digital[cite: 9, 11].</p>
+    </footer>
+
+    <script>
+        function switchPage(sectionId) {
+            // Desactivar todas las secciones
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.remove('active-section'));
+
+            // Desactivar todos los enlaces de la barra horizontal
+            const navLinks = document.querySelectorAll('nav.nav-horizontal ul li a');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // Activar la sección elegida
+            const targetSection = document.getElementById(sectionId);
+            if(targetSection) {
+                targetSection.classList.add('active-section');
+            }
+
+            // Activar el enlace correspondiente en el menú horizontal
+            const activeLink = Array.from(navLinks).find(link => link.getAttribute('onclick').includes(sectionId));
+            if(activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            // Desplazar la vista al inicio del contenedor de manera fluida
+            window.scrollTo({
+                top: document.querySelector('header').offsetHeight,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
